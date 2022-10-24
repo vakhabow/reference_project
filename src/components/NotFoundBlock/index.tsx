@@ -10,7 +10,9 @@ const NotFoundBlock: React.FC = () => {
         <br />
         Ничего нейдено :(
       </h1>
-      <p className={styles.description}>К сожалению данный страницы отсутствуют в нашем интернет-магазине</p>
+      <p className={styles.description}>
+        К сожалению данный страницы отсутствуют в нашем интернет-магазине
+      </p>
     </div>
   );
 };

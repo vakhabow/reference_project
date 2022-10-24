@@ -9,8 +9,8 @@ import debounce from "lodash.debounce";
 
 import { BsSearch } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
-import { setSearchValue } from "../../redux/slices/filterSlice";
 import { useDispatch } from "react-redux";
+import { setSearchValue } from "../../redux/filter/slice";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,14 +18,14 @@ const Search: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
-    dispatch(setSearchValue(''));
+    dispatch(setSearchValue(""));
     setValue("");
     inputRef.current?.focus();
   };
 
   const updateSearchValue = useCallback(
     debounce((string: string) => {
-     dispatch( setSearchValue(string));
+      dispatch(setSearchValue(string));
     }, 150),
     [dispatch]
   );

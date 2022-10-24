@@ -6,13 +6,10 @@ import { list } from "../components/Sort";
 import { useSelector } from "react-redux";
 import { fetchPizzas, selectPizzaData } from "../redux/slices/pizzaSlices";
 import {
-  FilterSliceState,
   selectFilter,
   setCategoryId,
   setCurrentPage,
-  setFilters,
 } from "../redux/slices/filterSlice";
-import { SearchPizzaParams } from "../redux/slices/pizzaSlices";
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -102,7 +99,7 @@ const Home: React.FC = () => {
     getPizzas();
   }, [getPizzas]);
 
-  const pizzas = items.map((obj: any) => <PizzaBlock {...obj} />);
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
 
   const skeletons = [...new Array(6)].map((_, index) => (
     <Skeleton key={index} />
@@ -112,7 +109,7 @@ const Home: React.FC = () => {
     <div className="container">
       <div className="content__top">
         <Categories value={categoryId} onChangeCategory={onChangeCategory} />
-        <Sort />
+        <Sort value={sort}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === "error" ? (

@@ -3,32 +3,34 @@ import { useEffect } from "react";
 import { useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-
+import { Sort } from "../redux/slices/filterSlice";
 import { setSort, SortPropertyEnum } from "../redux/slices/filterSlice";
 import { selectSort } from "../redux/slices/filterSlice";
 
 type SortItem = {
   name: string;
   sortProperty: SortPropertyEnum;
-}
+};
 
 type PopupClick = MouseEvent & {
-  path: Node[]
-}
+  path: Node[];
+};
 
+type SortPopupProps = {
+  value: Sort;
+};
 
 export const list: SortItem[] = [
   { name: "популярности (DESC)", sortProperty: SortPropertyEnum.RATING_DESC },
   { name: "популярности (ASC)", sortProperty: SortPropertyEnum.RATING_ASC },
   { name: "цене (DESC)", sortProperty: SortPropertyEnum.PRICE_DESC },
-  { name: "цене (ASC)", sortProperty: SortPropertyEnum.PRICE_ASC},
+  { name: "цене (ASC)", sortProperty: SortPropertyEnum.PRICE_ASC },
   { name: "алфавиту (DESC)", sortProperty: SortPropertyEnum.TITLE_DESC },
-  { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC},
+  { name: "алфавиту (ASC)", sortProperty: SortPropertyEnum.TITLE_ASC },
 ];
 
-const SortPopup = () => {
+const SortPopup: React.FC<SortPopupProps> = React.memo(({ value }) => {
   const dispatch = useDispatch();
-  const sort = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
 
   const [open, setOpen] = React.useState(false);
@@ -49,7 +51,7 @@ const SortPopup = () => {
 
     document.body.addEventListener("click", handleClickOutside);
 
-    return () => document.body.removeEventListener('click', handleClickOutside);
+    return () => document.body.removeEventListener("click", handleClickOutside);
   }, []);
 
   return (
@@ -68,7 +70,7 @@ const SortPopup = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sort?.name}</span>
+        <span onClick={() => setOpen(!open)}>{value?.name}</span>
       </div>
       {open && (
         <div className="sort__popup">
@@ -79,7 +81,7 @@ const SortPopup = () => {
                   key={index}
                   onClick={() => onClickListItem(obj)}
                   className={
-                    sort.sortProperty === obj.sortProperty ? "active" : ""
+                    value.sortProperty === obj.sortProperty ? "active" : ""
                   }
                 >
                   {obj.name}
@@ -91,6 +93,6 @@ const SortPopup = () => {
       )}
     </div>
   );
-};
+});
 
 export default SortPopup;
